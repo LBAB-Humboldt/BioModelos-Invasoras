@@ -1,0 +1,203 @@
+<div class="contenedor">
+  <div class="faqtitle clearfix"><h1><%= @group.name %></h1></div>
+</div>
+<div class="perfilline" id="lineap"></div>
+<div class="contenedor" ng-controller="group_users_ctrl">
+  
+  <div id="col1p">
+    <div id="alturap">
+      <div id="group_info">
+        <% if @message != nil %>
+          <p class="alert alert-notice"><%= @message %></p>
+        <% end %>
+        <div class="subcol">
+          <div class="crop2"><%= image_tag(@group.logo.url(:thumb250).to_s) %></div>
+        </div>
+        <div class="subcol2">
+          <h3>Administrador(es)</h3></br>
+          <% @group_admins.each do |admin| %>
+          <a class="adminuser" href="/users/<%= admin.user.id %>"><%= admin.user.name %></a> <p class="adminuser adminwhere">· <%= admin.user.organization %> </p></br>
+          <% end %>
+          <p class="descgroup"><%= @group.description.blank? ? "Descripción pendiente." : @group.description %></p>
+          <a class="mailingr" href="mailto:<%= @group.email %>"><%= @group.email %></a>
+          <a class="mailingr2" href="<%= url_with_protocol(@group.link) %>" target="_blank"><%= @group.link %></a>
+          <% if user_signed_in? %>
+            <div class="grcontrols" >
+              <% if @is_member %>
+                <button class="invgroup"  ng-click="email_invitation=!email_invitation" title="Invitar Experto"></button>
+              <% end %>
+              <% if @is_member && @is_admin %>
+                <button class="mailgroup" ng-click="bulk_email=!bulk_email" title="Redactar Email al Grupo"></button>
+                <button class="editgroup" ng-click="edit_group=!edit_group" title="Editar Grupo"></button>
+                <button class="notgroup" ng-click="pending_approvals=!pending_approvals" title="Ver Solicitudes Pendientes"></button>
+              <% end %>
+              <% if @user_group.blank? || @user_group.group_user_state_id == 4 %>
+                <%= simple_form_for @group_user do |f| %>
+                  <%= f.hidden_field :group_id, :value =>  @group.id %>
+                  <%= f.submit "", :class=> "joingroup", :title=>"Unirse al grupo" %>
+                <% end %>
+              <% elsif @user_group.group_user_state_id == 1 %>
+                <%= simple_form_for @group_user do |f| %>
+                  <%= f.hidden_field :group_id, :value =>  @group.id %>
+                  <%= f.submit "", :class=> "leavegroup", :title=>"Abandonar Grupo", data: { confirm: '¿Está seguro de querer abandonar el grupo?' }%>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+  <div class="perfilcol1 clearfix fixfooter">
+
+    <% if user_signed_in? && @is_member && @is_admin %>
+      <div ng-show="email_invitation" >
+          <%= render "email_invitation" %>
+      </div>
+    
+     <div ng-show="bulk_email" >
+        <%= render "bulk_email" %>
+      </div>
+    <% end %>
+
+      <div class="cajas2 formedgroup pabs">  
+        <h3>Notificaciones</h3>
+          <% @group.notifications.each do |notification| %>  
+            <% if notification.type == 'new_species' %>
+            <p class="feedtimep lh1"><%= notification.updated_at.to_time.strftime("%F %R") %></p>
+              <p class="notif">· La especie <a href="/models/visor?species_id=<%= notification.id %>"><%= notification.name %></a> fue añadida al grupo</p>
+            <% elsif notification.type == 'review' %>
+              <p class="feedtimep lh1"><%= notification.updated_at.to_time.strftime("%F %R") %></p>
+              <p class="notif">· El usuario <a href="/users/<%= notification.id %>"><%= notification.name %></a> realizó una edición sobre la especie <a href="/models/visor?species_id=<%= notification.sp_id %>"><%= notification.info %></a> </p>
+            <% else %>
+            <p class="feedtimep lh1"><%= notification.updated_at.to_time.strftime("%F %R") %></p>
+              <p class="notif">· El usuario <a href="/users/<%= notification.id %>"><%= notification.name %></a> se unió al grupo</p>
+            <% end %>
+          <% end %> 
+      </div>
+      
+  </div>
+
+
+  <div class="perfilcol2 clearfix h100 fixfooter">
+
+    <% if user_signed_in? && @is_member %>
+      <button class="sugspp topbtn" ng-click="sugest_species=!sugest_species">Sugerir Especie</button>
+      
+      <%= render "species_form" %>
+      
+      <% if @is_admin %>
+        <div ng-show="edit_group">
+          <%= render "group_form" %>
+        </div>
+      
+        <div class="cajas2 pb10px" ng-show="pending_approvals">
+
+          <div class="formedgroup">    
+            <h3>Miembros Pendientes de Aprobación</h3>     
+            <% @pending_members.each do |member| %>
+              <div class="miembrospen">
+                <div class="userforgroup"><%= member.user.name %></div>
+                <p class="descgroup fz14"><%= member.user.bio %></p>
+                <div class="vermodelo" ng-init="is_member['<%= member.id %>']=<%= member.group_user_state_id  == 1 %>; was_rejected['<%= member.id %>']=<%= member.group_user_state_id  == 3 %>" >
+                  <image style="cursor: pointer" src="<%= asset_path('like.png') %>" ng-if="!is_member['<%= member.id %>']" ng-click="approve_member('<%= member.id %>')" />
+                  <image style="cursor: pointer" class="btn" src="<%= asset_path('like.png') %>" ng-if="is_member['<%= member.id %>']" ng-click="approve_member('<%= member.id %>')" />
+                  <image style="cursor: pointer" src="<%= asset_path('borrar.png') %>" ng-if="!was_rejected['<%= member.id %>']" ng-click="reject_member('<%= member.id %>')" />
+                  <image style="cursor: pointer" class="btn" src="<%= asset_path('borrar.png') %>" ng-if="was_rejected['<%= member.id %>']" ng-click="reject_member('<%= member.id %>')" />
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="formedgroup">
+            <h3>Especies Pendientes de Aprobación</h3>
+            <% @pending_species_groups.each do |pending_species| %>
+              <div class="miembrospen">               
+                <div class="genero"><%= pending_species.species.sci_name %></div>
+                <div class="familia"><%= pending_species.species.family %></div>
+                <div class="vermodelo" ng-init="species_approved['<%= pending_species.id %>']=<%= pending_species.species_group_state_id  == 1 %>; species_rejected['<%= pending_species.id %>']=<%= pending_species.species_group_state_id  == 3 %>" >
+                  <image style="cursor: pointer" src="<%= asset_path('like2.png') %>" ng-if="!species_approved['<%= pending_species.id %>']" ng-click="approve_species('<%= pending_species.id %>')" />
+                  <image style="cursor: pointer" class="btn" src="<%= asset_path('like.png') %>" ng-if="species_approved['<%= pending_species.id %>']" ng-click="approve_species('<%= pending_species.id %>')" />
+                  <image style="cursor: pointer" src="<%= asset_path('borrar2.png') %>" ng-if="!species_rejected['<%= pending_species.id %>']" ng-really-message="Are you sure" ng-really-click="reject_species('<%= pending_species.id %>')" />
+                  <image style="cursor: pointer" class="btn" src="<%= asset_path('borrar.png') %>" ng-if="species_rejected['<%= pending_species.id %>']" ng-click="reject_species('<%= pending_species.id %>')" />
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+      <div class="cajas2 formedgroup pabs fixfooter">
+        <h3>Ranking</h3>
+        <% @group.users_ranking.each_with_index do |user, i| %>
+          <div class="ranking">
+            <h1><%= i+1 %></h1>
+              <p><a href="/users/<%= user.id %>"><%= user.name %></a> · <%= user.ediciones %> aportes </p>
+              <div class="medalla1"></div>
+          </div>
+        <% end %>
+      </div>
+ 
+    <div class="cajas2 hs2 clearfix fixfooter" id="tabs">
+                <ul class="tabsnav w100 clearfix">
+                  <li><a href="#tabs-1" class='tabtn'>Especies</a></li>     
+                  <li><a href="#tabs-2" class='tabtn'>Miembros</a></li>
+                </ul>
+
+
+      <div id="tabs-1">
+        <% @species_groups.each do |species_group| %>  
+        <p class="notif">
+        <a href="/models/visor?species_id=<%= species_group.species.id %>"><%= species_group.species.sci_name %></a>
+           · <%= species_group.species.family %></p>
+        <% end %>   
+      </div>
+      <div id="tabs-2">
+        <div class="mb45px"></div>
+        <% @group_admins.each do |admin| %>
+        <p class="notif">
+          <a href="/users/<%= admin.user.id %>"><%= admin.user.name %></a> · <%= admin.user.organization %></p>
+          <% end %>
+        <p class="lineasep"></p>
+        <% @members.each do |member| %>
+        <p class="notif">
+            <a href="/users/<%= member.user.id %>"><%= member.user.name %></a> · <%= member.user.organization %></p>
+        <% end %>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+var ready;
+ready = function() {
+
+    function recalcular (){
+    var altura = $('#alturap').height();
+    $('#lineap').height(altura);
+    $('#col1p').css( "margin-top", -altura);
+  }
+  recalcular();
+  $(window).resize(function() {
+    recalcular();
+  });
+};
+
+$(document).ready(ready);
+$(document).on('page:change', ready);
+
+$( "#tabs" ).tabs();
+
+
+
+
+
+</script>

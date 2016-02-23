@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="author" content="BioModelos - biomodelos@humboldt.org.co">
+    <title>Mensaje administrador</title>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,400italic' rel='stylesheet' type='text/css'>
+<style>
+* {
+	margin:0;
+	padding:0;
+}
+
+body {
+	font-family: 'Lato', sans-serif;
+	font-size: 14px;
+}
+
+a {
+	text-decoration: none;
+	color: #f7be15;
+}
+
+.linewidth {
+	width: 100%;
+	height: 150px;
+	background-color: #f7be15;
+}
+
+.contenido {
+	width: 550px;
+	max-width: calc(100% - 100px);
+	background-color: #fff;
+	margin-top: -70px;
+	margin-left: 30px;
+	padding: 20px;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+h3 {
+	color: #424242;
+	margin-bottom: 35px;
+}
+
+h3 i,
+h3 b {
+	color: #d73d2a;
+}
+
+h3 span {
+	color: #f7be15;
+}
+
+</style>
+
+</head>
+<body>
+<div class="linewidth"></div>
+<div class ="contenido">
+<h3>Se ha recibido un mensaje desde la aplicación <span>BioModelos</span> con la siguiente información:</h3>
+
+Hora de recepción: <%= @datetime.strftime("%F %r") %><br/>
+<br/>
+Nombre o institución: <b><%= @message.name %></b><br/>
+E-Mail: <b><%= @message.email %></b><br/>
+Asunto: <b><%= @message.subject %></b><br/>
+Contenido: <b><%= @message.content %></b><br/>
+</div>
+</body>
+</html>

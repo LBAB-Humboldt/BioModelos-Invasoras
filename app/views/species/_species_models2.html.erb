@@ -1,0 +1,554 @@
+<h1><%= @species.sci_name %></h1>
+<% if user_signed_in? %>
+    <%= hidden_field_tag('bio_user_id', current_user.id) %>
+<% end %>
+<a href="" class="xcierre2">X</a>
+        <div class="registros">
+                    <h4>No. Registros</h4>
+                    <div class="noreg"><%= @species.ocurrence_records %></div>
+                    <div class="clearfix"></div>
+                    <% if @species.ocurrence_records_url? %>
+                        <%= link_to "Metadatos", root_url + 'metadata/'+ @species.ocurrence_records_url.split('.').first + '.html', {:target => '_blank', :class => 'verreg' } %>
+                    <% end %>               
+        </div>  
+        <div class="resbusqueda genero clearfix"><%= @species.order %></br>
+        <div class="familia"><%= @species.family %></div>
+        <a href="http://www.biodiversidad.co/" target="_blank">www.biodiversidad.co</a></div>
+
+        <% @validacion = 99 %>
+        <% @bioclim = 1 %>
+        <% @brt = 2 %>
+        <% @maxent = 3 %>
+
+        <div class="hs clearfix" id="tabs">
+                <ul class="tabsnav clearfix">
+                    <li><a href="#tabs-1" class='tabtn'>Validación</a></li>     
+                    <li><a href="#tabs-2" class='tabtn'>Bioclim</a></li>
+                    <li><a href="#tabs-3" class='tabtn'>BRT</a></li>
+                    <li><a href="#tabs-4" class='tabtn'>Maxent</a></li>
+
+                    <div class="urls" title="Enlace directo">URL:<input id="idUrl" type="text" value="biomodelos.humboldt.org.co/models/visor?species_id=<%= @species.id %>" /></div>
+                </ul>
+
+        <div id="tabs-1">
+            <div class="left-arrow">
+                <a href="#prev">
+                </a>
+            </div>
+            <div class="showcase">
+                <ul class="modelost">
+                    <% model_lba = @models.where(:img_url => @species.sci_name + "_lba.png").first %>
+                    <% model_lban2 = @models.where(:img_url => @species.sci_name + "_lba_n2.png").first %>
+                    <%  if !model_lba.blank? %>
+                            <li class="modelothumb">
+                                <div class="cajadatosm">
+                                <%= link_to "#", :class => 'model_link' do%>
+                                    <%= hidden_field_tag('imgsrc', model_lba.img_url) %>
+                                    <% if !model_lban2.blank? %>
+                                        <%= hidden_field_tag('imgsrc2', model_lban2.img_url) %>
+                                    <% end %>
+                                    <%= image_tag("/thumbs/"+ model_lba.thumb_url, :height => 205, :width => 145, :id => model_lba.id) %>
+                                    <div class="modeldata">
+                                    <h5>Modelo Inductivo</h5>
+                                    <h6><b>LBA</b></br></h6>
+                                    <p>Promedio:</p>
+                                    <h3><%= model_lba.average_rating %></h3>
+                                    <p>Votos: (<%= model_lba.total_votes %>)</p>
+                                    </div>
+                                <% end %>
+                                </div>
+                                <div class="rankmod clearfix">
+                                    <% if user_signed_in? %>
+                                        <div class="user_star">
+                                            <%= hidden_field_tag('model', model_lba.id, :class => 'mid' )  %>
+                                            <%= hidden_field_tag('level', model_lba.level, :class => 'lvl' )  %>
+                                            <%= hidden_field_tag('myscore', @ratings[model_lba.id], :class => 'myscore')  %>
+                                        </div>
+                                    <% end %>
+                                    <% if file_exists(model_lba.id) %>
+                                        <%= link_to models_download_model_path(:m_id => model_lba.id), :class => 'download', :remote => true do %>
+                                            <%= image_tag("descargar.png") %>
+                                        <% end %>
+                                    <% else %>
+                                        <div class="rankmod2 clearfix"></div>
+                                    <% end %>
+                                </div>
+                            </li>
+                    <% else %>
+                    <% end %>
+                    <% model_bm = @models.where(:img_url => @species.sci_name + "_bm.png").first %>
+                    <% model_bmn2 = @models.where(:img_url => @species.sci_name + "_bm_n2.png").first %>
+                    <% if !model_bm.blank? %>
+                            <li class="modelothumb">
+                                <div class="cajadatosm">
+                                <%= link_to "#", :class => 'model_link' do%>
+                                    <%= hidden_field_tag('imgsrc', model_bm.img_url) %>
+                                    <% if !model_bmn2.blank? %>
+                                        <%= hidden_field_tag('imgsrc2', model_bmn2.img_url) %>
+                                    <% end %>
+                                    <%= image_tag("/thumbs/"+ model_bm.thumb_url, :height => 205, :width => 145) %>
+                                    <div class="modeldata">
+                                    <h5>Modelo Híbrido</h5>
+                                    <h6><b>BioModelos </b></br></h6>
+                                    <p>Promedio:</p>
+                                    <h3><%= model_bm.average_rating %></h3>
+                                    <p>Votos: (<%= model_bm.total_votes %>)</p>
+                                    </div>
+                                <% end %>
+                                </div>
+                                <div class="rankmod clearfix">
+                                    <% if user_signed_in? %>
+                                        <div class="user_star">
+                                            <%= hidden_field_tag('model', model_bm.id, :class => 'mid' )  %>
+                                            <%= hidden_field_tag('level', model_bm.level, :class => 'lvl' )  %>
+                                            <%= hidden_field_tag('myscore', @ratings[model_bm.id], :class => 'myscore')  %>
+                                        </div>
+                                    <% end %>
+                                    <% if file_exists(model_bm.id) %>
+                                        <%= link_to models_download_model_path(:m_id => model_bm.id), :class => 'download', :remote => true do %>
+                                            <%= image_tag("descargar.png") %>
+                                        <% end %>
+                                    <% else %>
+                                        <div class="rankmod2 clearfix"></div>
+                                    <% end %>
+                                </div>
+                            </li>
+                    <% else %>
+                        <li class="modelothumb">
+                                <div class="cajadatosm">
+                                    <%= image_tag("nohayBioM.png", :height => 205, :width => 145) %>
+                                    <div class="modeldata textogrande">
+                                        <h6><b>No hay aportes de expertos.</b><br><br>Califica y edita los modelos en las pestañas Maxent, Bioclim y BRT.</h6>
+                                    </div>
+                                </div>
+                                    <div class="rankmod2 clearfix">
+                                    </div>
+                        </li>
+                    <% end %>
+                    <% model_iucn = @models.where(:img_url => @species.sci_name + "_iucn.png").first %>
+                    <% model_iucnn2 = @models.where(:img_url => @species.sci_name + "_iucn_n2.png").first %>
+                    <% if !model_iucn.blank? %>
+                        <li class="modelothumb">
+                            <div class="cajadatosm">
+                            <%= link_to "#", :class => 'model_link' do%>
+                                <%= hidden_field_tag('imgsrc', model_iucn.img_url) %>
+                                <% if !model_iucnn2.blank? %>
+                                    <%= hidden_field_tag('imgsrc2', model_iucnn2.img_url) %>
+                                <% end %>
+                                <%= image_tag("/thumbs/"+ model_iucn.thumb_url, :height => 205, :width => 145, :id => model_iucn.id) %>
+                                <div class="modeldata">
+                                <h5>Modelo Deductivo</h5>
+                                <h6><b>Experto</b></br></h6>
+                                <p>Promedio:</p>
+                                <h3><%= model_iucn.average_rating %></h3>
+                                <p>Votos: (<%= model_iucn.total_votes %>)</p>
+                                </div>
+                            <% end %>
+                            </div>
+                            <div class="rankmod clearfix">
+                                <% if user_signed_in? %>
+                                    <div class="user_star">
+                                        <%= hidden_field_tag('model', model_iucn.id, :class => 'mid' )  %>
+                                        <%= hidden_field_tag('level', model_iucn.level, :class => 'lvl' )  %>
+                                        <%= hidden_field_tag('myscore', @ratings[model_iucn.id], :class => 'myscore')  %>
+                                    </div>
+                                <% end %>
+                                <% if file_exists(model_iucn.id) %>
+                                    <%= link_to models_download_model_path(:m_id => model_iucn.id), :class => 'download', :remote => true do %>
+                                        <%= image_tag("descargar.png") %>
+                                    <% end %>
+                                <% else %>
+                                        <div class="rankmod2 clearfix"></div>
+                                <% end %>
+                            </div>
+                        </li>
+                    <% else %>
+                        <li class="modelothumb">
+                                <div class="cajadatosm">
+                                    <%= image_tag("nohayexp.png", :height => 205, :width => 145) %>
+                                    <div class="modeldata textogrande">
+                                        <h6><b>Mapa de IUCN no disponible.</b><br><br>Contactános para publicar modelos de otras fuentes.</h6>
+                                    </div>
+                                </div>
+                                    <div class="rankmod2 clearfix">
+                                    </div>
+                            </li>   
+                    <% end %>
+                </ul>
+            </div>
+            <div class="right-arrow">
+                <a href="#next">
+                </a>
+            </div>
+        </div>
+
+        <div id="tabs-2">
+             <div class="left-arrow">
+                <a href="#prev">
+                </a>
+            </div>
+            <div class="showcase2">
+                <ul class="modelost">
+                    <% @models.where(:level => @bioclim).each_with_index do |model, i| %>
+                        <li class="modelothumb">
+                            <div class="cajadatosm">
+                            <%= link_to "#", :class => 'model_link' do%>
+                                <%= hidden_field_tag('imgsrc', model.img_url) %>
+                                <%= image_tag("/thumbs/"+ model.thumb_url, :height => 205, :width => 145, :id => model.id) %>
+                                <div class="modeldata">
+                                <h5>Modelo Bioclim</h5>
+                                <h6><b>CORTE: </b></br>
+                                <%= model.description %></h6>
+                                <p>Promedio:</p>
+                                <h3><%= model.average_rating %></h3>
+                                <p>Votos: (<%= model.total_votes %>)</p>
+                                </div>
+                            <% end %>
+                            </div>
+                            <div class="rankmod clearfix">
+                                <% if user_signed_in? %>
+                                    <div class="user_star">
+                                        <%= hidden_field_tag('model', model.id, :class => 'mid' )  %>
+                                        <%= hidden_field_tag('level', model.level, :class => 'lvl' )  %>
+                                        <%= hidden_field_tag('myscore', @ratings[model.id], :class => 'myscore')  %>
+                                    </div>
+                                <% end %>
+                                <% if file_exists(model.id) %>
+                                    <%= link_to models_download_model_path(:m_id => model.id), :class => 'download', :remote => true do %>
+                                        <%= image_tag("descargar.png") %>
+                                    <% end %>
+                                <% else %>
+                                        <div class="rankmod2 clearfix"></div>
+                                <% end %>
+                            </div>
+                        </li>
+                    <% end %>
+                </ul>
+            </div>
+            <div class="right-arrow">
+                <a href="#next">
+                </a>
+            </div>
+        </div>
+
+        <div id="tabs-3">
+             <div class="left-arrow">
+                <a href="#prev">
+                </a>
+            </div>
+            <div class="showcase3">
+                <ul class="modelost">
+                    <% @models.where(:level => @brt).each_with_index do |model, i| %>
+                        <li class="modelothumb">
+                            <div class="cajadatosm">
+                            <%= link_to "#", :class => 'model_link' do%>
+                                <%= hidden_field_tag('imgsrc', model.img_url) %>
+                                <%= image_tag("/thumbs/"+ model.thumb_url, :height => 205, :width => 145, :id => model.id) %>
+                                <div class="modeldata">
+                                <h5>Modelo BRT</h5>
+                                <h6><b>CORTE: </b></br>
+                                <%= model.description %></h6>
+                                <p>Promedio:</p>
+                                <h3><%= model.average_rating %></h3>
+                                <p>Votos: (<%= model.total_votes %>)</p>
+                                </div>
+                            <% end %>
+                            </div>
+                            <div class="rankmod clearfix">
+                                <% if user_signed_in? %>
+                                    <div class="user_star">
+                                        <%= hidden_field_tag('model', model.id, :class => 'mid' )  %>
+                                        <%= hidden_field_tag('level', model.level, :class => 'lvl' )  %>
+                                        <%= hidden_field_tag('myscore', @ratings[model.id], :class => 'myscore')  %>
+                                    </div>
+                                <% end %>
+                                <% if file_exists(model.id) %>
+                                    <%= link_to models_download_model_path(:m_id => model.id), :class => 'download', :remote => true do %>
+                                        <%= image_tag("descargar.png") %>
+                                    <% end %>
+                                <% end %>
+                            </div>
+                        </li>
+                    <% end %>
+                </ul>
+            </div>
+            <div class="right-arrow">
+                <a href="#next">
+                </a>
+            </div>
+        </div>
+
+        
+        <div id="tabs-4">
+             <div class="left-arrow">
+                <a href="#prev">
+                </a>
+            </div>
+            <div class="showcase4">
+                <ul class="modelost">
+                    <% @models.where(:level => @maxent).each_with_index do |model, i| %>
+                        <li class="modelothumb">
+                            <div class="cajadatosm">
+                            <%= link_to "#", :class => 'model_link' do%>
+                                <%= hidden_field_tag('imgsrc', model.img_url) %>
+                                <%= image_tag("/thumbs/"+ model.thumb_url, :height => 205, :width => 145, :id => model.id) %>
+                                <div class="modeldata">
+                                <h5>Modelo Maxent</h5>
+                                <h6><b>CORTE: </b></br>
+                                <%= model.description %></h6>
+                                <p>Promedio:</p>
+                                <h3><%= model.average_rating %></h3>
+                                <p>Votos: (<%= model.total_votes %>)</p>
+                                </div>
+                            <% end %>
+                            </div>
+                            <div class="rankmod clearfix">
+                                <% if user_signed_in? %>
+                                    <div class="user_star">
+                                        <%= hidden_field_tag('model', model.id, :class => 'mid' )  %>
+                                        <%= hidden_field_tag('level', model.level, :class => 'lvl' )  %>
+                                        <%= hidden_field_tag('myscore', @ratings[model.id], :class => 'myscore')  %>
+                                    </div>
+                                <% end %>
+                                <% if file_exists(model.id) %>
+                                    <%= link_to models_download_model_path(:m_id => model.id), :class => 'download', :remote => true do %>
+                                        <%= image_tag("descargar.png") %>
+                                    <% end %>
+                                <% end %>
+                            </div>
+                        </li>
+                    <% end %>
+                </ul>
+            </div>
+            <div class="right-arrow">
+                <a href="#next">
+                </a>
+            </div>
+        </div>
+
+        </div>
+        <p>Califica sólo uno de los modelos por pestaña.</br></br></p>
+        <% if user_signed_in? %>
+        <input type="checkbox" class="arealim"><label title="En casos en que se desee delimitar el area de conocimiento de la especie, podrá agregar tags geográficos por municipios o departamentos en un lenguaje controlado">Marque si su conocimiento sobre esta especie corresponde a un área limitada <i>(agregar tags geográficos)</i></label></input>
+        <input type="text" id="tags-input" class="borders clearfix"></input>
+        <input id="save-tags"class="cbton tagbtn" type="submit" value="guardar"></input>
+        <% end %> 
+        <div class="commentspace">
+        <h3>Comentarios sobre esta especie y sus modelos</h3>
+        <% if user_signed_in? %>
+            <%= render :partial => 'comments/new', :locals => {:new_comment => @new_comment} %>
+        <% end %>
+        </div>
+        <div class='comments-list padmodelos'>
+            <%= render :partial => 'comments/show', :collection => @all_comments, :as => :comment %>
+        </div>
+<div class ="termbox"></div>
+<script>
+    $("#save-tags").click(function(e){
+        
+        var t_values,
+            split_values,
+            isError = false,
+            t_values = $("#tags-input").val();
+
+        if(t_values == "")
+            alert("Ingrese algún tag geográfico");
+        else{
+            split_values = t_values.split(",");
+
+            for (var i=0; i<split_values.length; i++) {
+                
+                $.ajax({
+                        type: "POST",
+                        url: "/regions/save_region_user",
+                        data: { rid: split_values[i], sid: <%= @species.id %>},
+                        error: function( jqXHR, textStatus ) {
+                            isError = true;
+                            alert( "Ha ocurrido un error: " + textStatus );
+                        }
+                }); 
+            }
+
+            if (!isError)
+                alert("Tag(s) guardados con éxito.");
+        }
+
+        e.preventDefault();
+    });
+    
+    /* Rating */
+    $('.user_star').raty({ 
+                path: '../assets',
+                hints: ['No representa', 'Representa pobremente', 'Representa regularmente', 'Representa adecuadamente', 'Representa muy bien'],
+                cancel: true,
+                cancelHint:   'Eliminar calificación',
+                score:  function() {
+                            return $(this).find('.myscore').val();
+                },
+                click: function(score, evt) {
+                    model_clicked_id = $(this).find('.mid').val();
+                    if(evt.currentTarget.className === "raty-cancel")
+                    {
+                            $.ajax({
+                                type: "DELETE",
+                                url: "/ratings/destroy",
+                                data: { mid: $(this).find('.mid').val(), uid: $('#bio_user_id').val()}
+                            });
+                    }
+                    else{
+
+                        $.ajax({
+                            url: "/ratings/exists_rating",
+                            datatype: "json",
+                            contenType: "application/json; charset=utf-8",
+                            type: "POST",
+                            data:{
+                                'mid' : $(this).find('.mid').val(),
+                                'lvl': $(this).find('.lvl').val()
+                            },
+                            success: function(data){                
+                                if(data)
+                                {
+                                    alert("¡Sólo puede calificar un modelo por pestaña!");
+                                    $(".mid[value='"+model_clicked_id+"']").parent().raty('cancel');
+                                }   
+                                else
+                                {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/ratings/rate_model",
+                                        data: { mid: $(".mid[value='"+model_clicked_id+"']").val(), score: score, lvl: $(".mid[value='"+model_clicked_id+"']").parent().find('.lvl').val()}
+                                    });                          
+                                }
+                            },
+                            error: function(data){
+                                alert("Something went wrong");
+                            }
+                        });
+                            
+                    } 
+                } 
+    });
+
+    $('input[type=checkbox]').click(function(){
+          $('.tagbtn').toggle();
+          $('.token-input-list').toggle();
+    });
+
+    /* Tabs */
+   $( "#tabs" ).tabs();
+
+   (function activate_gallery(){
+    var div = $('div.showcase'),
+        div2 = $('div.showcase2'),
+        div3 = $('div.showcase3');
+        div4 = $('div.showcase4');
+        div5 = $('div.showcase5');
+    var liNum = $(div).find('ul').children('li').length,
+         liNum2 = $(div2).find('ul').children('li').length,
+         liNum3 = $(div3).find('ul').children('li').length;
+         liNum4 = $(div4).find('ul').children('li').length;
+         liNum5 = $(div5).find('ul').children('li').length;
+    var speed = 1000;
+    var containerWidth = 682;
+    var itemWidth = 165;
+    $(div).css({overflow: 'hidden'});
+    $(div2).css({overflow: 'hidden'});
+    $(div3).css({overflow: 'hidden'});
+    $(div4).css({overflow: 'hidden'});
+    $(div5).css({overflow: 'hidden'});
+    $('div.right-arrow').click(function(e){ 
+        if(($(div).scrollLeft()+containerWidth)<(liNum*itemWidth)){
+            $(div).animate({
+                  scrollLeft: '+='+containerWidth
+            }, speed);
+        }
+        if(($(div2).scrollLeft()+containerWidth)<(liNum2*itemWidth)){
+            $(div2).animate({
+                  scrollLeft: '+='+containerWidth
+            }, speed);
+        }
+        if(($(div3).scrollLeft()+containerWidth)<(liNum3*itemWidth)){
+            $(div3).animate({
+                  scrollLeft: '+='+containerWidth
+            }, speed);
+        }
+         if(($(div4).scrollLeft()+containerWidth)<(liNum4*itemWidth)){
+            $(div4).animate({
+                  scrollLeft: '+='+containerWidth
+            }, speed);
+        }
+        if(($(div5).scrollLeft()+containerWidth)<(liNum5*itemWidth)){
+            $(div5).animate({
+                  scrollLeft: '+='+containerWidth
+            }, speed);
+        }
+    }); 
+    $('div.left-arrow').click(function(e){  
+        if(($(div).scrollLeft()+containerWidth)>containerWidth){
+            $(div).animate({
+                scrollLeft: '-='+containerWidth
+            }, speed);
+        }
+        if(($(div2).scrollLeft()+containerWidth)>containerWidth){
+            $(div2).animate({
+                scrollLeft: '-='+containerWidth
+            }, speed);
+        }
+        if(($(div3).scrollLeft()+containerWidth)>containerWidth){
+            $(div3).animate({
+                scrollLeft: '-='+containerWidth
+            }, speed);
+        }
+        if(($(div4).scrollLeft()+containerWidth)>containerWidth){
+            $(div4).animate({
+                scrollLeft: '-='+containerWidth
+            }, speed);
+        }
+        if(($(div5).scrollLeft()+containerWidth)>containerWidth){
+            $(div5).animate({
+                scrollLeft: '-='+containerWidth
+            }, speed);
+        }
+    });
+  })();
+
+  $('#idUrl').click(function() {
+    $(this).select();
+  });
+
+
+
+var loadRegionTags = function (){
+
+    var regions_usr_sp = "";
+    
+    $.ajax({
+        'async': false,
+        'type': "GET",
+        'global': false,
+        'dataType': 'json',
+        url: "/regions/regions_by_user",
+        data: {sid: <%= @species.id %>},
+        'success': function (data) {
+            regions_usr_sp = data;
+        },
+        error: function( jqXHR, textStatus ) {
+            isError = true;
+            alert( "Ha ocurrido un error: " + textStatus );
+        }
+    });
+
+    return regions_usr_sp;
+};
+
+<% if user_signed_in? %>
+    $("#tags-input").tokenInput("/species/regions_autocomplete",
+    {
+        preventDuplicates: true,
+        minChars:3,
+        prePopulate: loadRegionTags()
+
+    });
+<% end %>
+</script>

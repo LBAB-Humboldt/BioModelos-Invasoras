@@ -1,0 +1,42 @@
+<div class="fondo3 fondo5">
+  <article class="w600">
+        <div class="faqtitle clearfix">
+        <%= link_to groups_path do %><h1>Indice de Grupos</h1></div><% end %>
+
+        <div class="searchgroup clearfix">
+          <%= form_tag({controller: "groups", action: "index"}, method: "get", class: "nifty_form") do  %>
+              <%= text_field_tag(:q, 'Buscar Grupo', :onclick => 'if($(this).val()=="Buscar Grupo"){$(this).val("");};') %>
+              <%= submit_tag("Ir", class: "searchbtn flleft") %>
+          <% end %>
+        </div>
+          
+          <% if user_signed_in? %>
+            <div class="sug-group-btn">
+              <h1>+</h1>SUGERIR</br>GRUPO
+              <input type='button' value="submit" class="invisible">
+            </div>
+          <% end %>
+
+          <% @groups.each do |group| %>
+          <div class="grupogen">
+              <ul>
+                <li class="crop"><%= link_to image_tag(group.logo.url(:thumb250).to_s), group %></li>
+                <li class="grtit"><%= link_to group.name, group %></li>
+                <li><%= group.description.blank? ? "Descripción pendiente." : group.description %></li>
+              </ul>
+          </div>
+          <% end %>
+
+          <div class="new-group-form"></div>
+
+  </article>
+</div>
+<script>
+  $(".sug-group-btn").click(function(e){
+    e.preventDefault();
+    $.ajax({
+            type: "POST",
+            url: "/groups/form_new_group"
+    });
+  });
+</script>

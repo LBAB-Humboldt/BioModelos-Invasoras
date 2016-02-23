@@ -1,0 +1,41 @@
+<header class="main clearfix">
+	<div class="contenedor clearfix">
+		<a href="http://www.humboldt.org.co" class="humbcolor" target="_blank"><%= image_tag("humbcolor.png") %></a>
+		<div class="humbimg">
+		Instituto de Investigación de Recursos Biológicos<br> 
+		Alexander von Humboldt Colombia<br>
+		<p>Programa de Evaluación y Monitoreo de la Biodiversidad</p>
+		</div>
+		<nav>
+			<ul id="subnav">
+			  <li>
+			    <%= link_to 'Inicio', root_path %>
+			  </li>
+			  <li>
+			    <%= link_to 'Modelos', models_visor_path %>
+			  </li>
+			  <li>
+			    <%= link_to 'Grupos', groups_path %>
+			  </li>
+			  <% if user_signed_in? %>
+			  <div class="usuario">
+			    <%= link_to current_user.email, user_path(:id => current_user.id), :title=>'Perfil' %>
+			    <%= link_to 'X', destroy_user_session_path, :method=>'delete', :class=>'xsalir', :title=>'Salir' %>
+			  </div>
+			  <% else %>
+			    <li><%= link_to 'Ingresar', new_user_session_path %></li>
+			    <li><%= link_to 'Registrarse', new_user_registration_path %></li>
+			  <% end %>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+<script>
+	$(document).ready(function(){
+    $('#subnav a').each(function(index) {
+        if(this.href.trim() == window.location)
+            $(this).addClass("current");
+    });
+});
+</script>	

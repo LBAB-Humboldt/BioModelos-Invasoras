@@ -1,0 +1,419 @@
+<div class="leaflet-bottom leaflet-right" style="margin-bottom: 105px;">
+  <div class="leaflet-control-coordinates leaflet-control">
+    <div class="label"><span class="labelFirst"><div class="altitudeClass"></div> </span></div>
+  </div>
+</div>
+<!-- **************************** FRANK CODE *************************************** -->
+<div id="csvContentHidden"></div>
+
+<!-- ************************* MODAL ********************* -->
+ <div id="popup" style="display: none;">
+    <div class="content-popup">
+        <div class="close"><a href="#" id="close">X</a></div>
+        <div>
+          <h2 id="titlePopup"></h2>
+            <div id="scrollContent">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="popup-overlay"></div> 
+<!-- ************************* END MODAL ********************* -->
+
+<div style="display:none">
+  <input type="hidden" name="lngHidden" id="lngH"><br>
+  <input type="hidden" name="latHidden" id="latH"><br>
+  <input type="hidden" name="csvFileHidden" id="csvFSH"><br>
+</div>
+
+<div id="advancedSearchId" class="advancedSearchBox" style="display:none">
+  <table bgcolor="#FFFFFF" class="resbusqueda">
+    <tr>
+      <td><label for="species_date_from">Fecha desde</label>:</td>
+      <td colspan="2"><label for="species_date_to">Fecha hasta</label>:</td>
+    </tr>
+    <tr>
+      <td><%=date_field("species_date", "from", :style => "width: 110px;", :placeholder => "dd/mm/aaaa")%></td>
+      <td colspan="2"><%=date_field("species_date", "to", :style => "width: 110px;", :placeholder => "dd/mm/aaaa")%></td>
+    </tr>
+    <tr>
+      <td><input id="altitud_from" name="species[altitudfrom]" placeholder="Altitud desde" type="text" style="width:98%"/></td>
+      <td colspan="2"><input id="altitud_to" name="species[altitudto]" placeholder="Altitud hasta" type="text" style="width:98%"/></td>
+    </tr>
+    <tr>
+      <td colspan="2"><input id="localidad" name="species[localidad]" placeholder="Localidad" type="text" style="width:98%" /></td>
+      <td id="helpLocalidad" width="1">&nbsp;<a href="#" id="suggestLocalidad">?</a>&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="2"><input id="municipio" name="species[municipio]" placeholder="Municipio" type="text" style="width:98%" /></td>
+      <td id="helpMunicipio">&nbsp;<a href="#" id="suggestMunicipio">?</a>&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="2"><input id="departamento" name="species[departamento]" placeholder="Departamento" type="text" style="width:98%" /></td>
+      <td id="helpDepartamento">&nbsp;<a href="#" id="suggestDepartamento">?</a>&nbsp;</td>
+    </tr>
+    <tr>
+      <td class="region">
+      </td>
+    </tr>
+    <!--
+    <tr>
+      <td colspan="2">
+          <select style="width:98%" id="tiporeg" name="species[tiporeg]" placeholder="Tipo de registro">
+            <option value="">Tipo de registro</option>
+            <option value="1">Observación</option>
+            <option value="2">Conexión</option>
+          </select>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2"><input id="fuente" name="species[fuente]" placeholder="Fuente" type="text" style="width:98%"/></td>
+    </tr>
+    -->
+    <tr>
+      <td colspan="2"><input id="institucion" name="species[institucion]" placeholder="Institucion" type="text" style="width:98%"/></td>
+      <td id="helpInstitucion">&nbsp;<a href="#" id="suggestInstitucion">?</a>&nbsp;</td>
+
+    </tr>
+    <tr>
+      <td><input id="buscarAdv" class="buscarAdvBtn" name="species[buscarAdv]" value="Buscar" type="button" style="width:98%"/></td>
+      <td colspan="2"><input id="cleanAdv" class="cleanAdvBtn" name="species[clearAdv]" value="Limpiar" type="button" style="width:98%"/></td>
+    </tr>
+  </table>
+</div>
+<!-- **************************** END FRANK CODE *************************************** -->
+
+<div class="minus1024"><%= image_tag("w1024.png")%></div>
+<div class="plus1024">
+  <% if !params[:species_id].blank? && is_integer_num(params[:species_id]) %>
+      <script>
+          //Unique URL for each species
+          $.ajax({
+                          type: "GET",
+                          url: "/species/species_models",
+                          data: { species_id: <%=j params[:species_id]%>}
+          });
+      </script>
+  <% end %>
+<a href="" class="findbar" title="Búsqueda Especie"></a>
+<div id="allsearchers">
+        <div class="cajabusqueda">
+              <H3>Búsqueda taxonómica</H3>
+              <%= render 'species/search_form' %>
+              <section class="resultados"></section>
+        </div>
+<% if user_signed_in? %>
+    <a href="" class="edicionbar" title="Ediciones Realizadas"></a>
+        <div class="cajaediciones">
+        </div>
+    <a href="" class="ecologicas" title="Variables Ecológicas"></a>
+        <div class="cajaecolog">
+            <%= render partial: 'species/ecological_variables' %>
+        </div>
+<% end %>
+        <a href="" class="botonmodelos" title="Modelos y Comentarios"></a>
+
+</div>
+<div class="selecshowcase">
+</div>
+<div class="showmodels">
+</div>
+  <div class="editControls">
+    <% if user_signed_in? %>
+        <a class="editbtn" id="editBtn">editar</a>
+        <a class="cbtn" id="cancBtn">terminar</a>
+        <a class="advsearchbtn" id="advsearchbtn">Buscar</a>
+        <%= simple_form_for @review, :remote => true do |f| %>
+            <%= f.hidden_field :model_id %>
+            <%= f.hidden_field :user_id, :value => get_current_user_id %>
+            <%= f.hidden_field :geoJSON %>
+        <% end %>
+    <% end %>
+  </div>
+<a class="areaespecie"></a>
+</div>
+<div id="map"></div>
+<div class ="pointBox"></div>
+<%= javascript_include_tag 'leaflet/leaflet.draw.0.2.3dev.min' %>
+<%= javascript_include_tag 'mapEditor' %>
+<script>
+
+var ecoVars;
+
+function getEcoVariable(key){
+
+  for (var i in ecoVars) {
+    if(ecoVars[i].eco_id == key)
+      return ecoVars[i];
+
+  }
+
+}
+
+$( "#accordion" ).accordion({ heightStyle: "content", collapsible: true });
+
+$(".edicionbar").click(function(e) {
+
+    var sid = $('#species_id').val();
+
+    $.ajax({
+        'type': "POST",
+        'global': false,
+        url: "/reviews/reviews_by_species",
+        data: {id: sid},
+        error: function( jqXHR, textStatus ) {
+            isError = true;
+            alert( "Ha ocurrido un error: " + textStatus );
+        }
+    });
+
+    e.preventDefault();
+});
+
+$(".ecologicas").click(function(e) {
+
+  var alt_range = "";
+
+  if(!$(".cajaecolog").is(":visible")){
+
+    var sid = $('#species_id').val(),
+      uid = $('#review_user_id').val();
+
+    $.ajax({
+        'async': false,
+        'type': "GET",
+        'global': false,
+        'dataType': 'json',
+        url: "/species/eco_variables_search",
+        data: {user_id: uid, species_id: sid},
+        'success': function (data) {
+            ecoVars = data;
+        },
+        error: function( jqXHR, textStatus ) {
+            isError = true;
+            alert( "Ha ocurrido un error: " + textStatus );
+        }
+    });
+
+
+    $.ajax({
+        'async': false,
+        'type': "POST",
+        'global': false,
+        'dataType': 'json',
+        url: "/species/get_altitude_range",
+        data: {sid: sid},
+        'success': function (data) {
+            alt_range = data;
+        },
+        error: function( jqXHR, textStatus ) {
+            isError = true;
+            alert( "Ha ocurrido un error: " + textStatus );
+        }
+    });
+
+    if(alt_range != null){
+      $("#ralt_min").val(alt_range.alt_min);
+      $("#ralt_max").val(alt_range.alt_max);
+    }
+    else{
+      $("#ralt_min").val("");
+      $("#ralt_max").val("");
+    }
+
+    //Initialize checkboxes
+    $('input[type=checkbox]').each(function(e){
+      var $this = $(this);
+      $this.change(function(e){
+          //console.log("Cambio");
+          $this.parent('div').find('div.slider').toggle('slow');
+          $this.parent('div').find('h6').toggle('slow');
+    });
+
+
+    //Initialize each
+    $(".slider").each(function () {
+
+      var ecoVar;
+          min_val = 0.0,
+          mean_val = 0.5,
+          max_val = 1.0;
+
+
+      ecoVar = getEcoVariable($(this).attr('name'))
+      if (ecoVar != undefined){
+          min_val = ecoVar.min,
+          mean_val = ecoVar.mean,
+          max_val = ecoVar.max;
+          //$(this).parent('div').find('input:checkbox').click();
+      }
+
+      $(this).slider({
+          min: 0.0,
+          max: 1.0,
+          step: 0.1,
+          values: [ min_val, mean_val, max_val ],
+       });
+    });
+
+  });
+
+  }
+
+});
+
+/* Saves eco variables */
+$(".ecobtn").click(function(e) {
+  var sp_id = $('#species_id').val(),
+      isError = false,
+      re = /^([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9])$/,
+      ralt_str_min = $("#ralt_min").val(),
+      ralt_str_max = $("#ralt_max").val();
+
+  if(ralt_str_min != "" && ralt_str_max != ""){
+
+    if (re.test(ralt_str_min) && re.test(ralt_str_max)){
+      if(ralt_str_min < ralt_str_max){
+        $.ajax({
+          type: "POST",
+          url: "/species/add_altitude_range",
+          data: { sid: sp_id, alt_min: ralt_str_min, alt_max: ralt_str_max},
+          error: function( jqXHR, textStatus ) {
+            isError = true;
+            alert( "Ha ocurrido un error: " + textStatus );
+          }
+        });
+      }
+      else
+        alert("El valor mínimo debe ser menor que el valor máximo.");
+    }
+    else{
+       alert("Ingrese valores de Rango Altitudinal válidos.");
+    }
+
+  }
+
+  $("#othervar div.slider").each(function(e) {
+
+    var sli_1 = $(this).slider("values", 0),
+        sli_2 = $(this).slider("values", 1),
+        sli_3 = $(this).slider("values", 2),
+        sli_name = $(this).attr("name");
+
+    $.ajax({
+      type: "POST",
+      url: "/species/add_ecological_variable",
+      data: { species_id: sp_id, eco_variable_id: sli_name, min: sli_1, max: sli_3, mean: sli_2},
+      error: function( jqXHR, textStatus ) {
+          isError = true;
+          alert( "Ha ocurrido un error: " + textStatus );
+      }
+    });
+  });
+
+  $("#accordion input[type=checkbox]").each(function(e) {
+    if($(this).prop("checked")){
+
+      var sli_id = $(this).parent('div').find('div.slider').attr("name"),
+          sli_1 = $(this).parent('div').find('div.slider').slider("values", 0),
+          sli_2 = $(this).parent('div').find('div.slider').slider("values", 1),
+          sli_3 = $(this).parent('div').find('div.slider').slider("values", 2);
+
+      $.ajax({
+        type: "POST",
+        url: "/species/add_ecological_variable",
+        data: { species_id: sp_id, eco_variable_id: sli_id, min: sli_1, max: sli_3, mean: sli_2 },
+        error: function( jqXHR, textStatus ) {
+          isError = true;
+          alert( "Ha ocurrido un error: " + textStatus );
+        }
+      });
+    }
+  });
+
+  if(!isError)
+    alert("Las variables han sido guardadas con éxito.")
+
+});
+
+$('.subcbtn').click(function() {
+  $(this).parent('div').parent('div').find('div.subcecos').toggle('slow', function() {
+  });
+});
+
+/* *************************** FRANK CODE ***************** */
+
+
+$('#open').click(function(){
+    $('#popup').fadeIn('slow');
+    $('.popup-overlay').fadeIn('slow');
+    $('.popup-overlay').height($(window).height());
+    return false;
+  });
+  
+  $('#close').click(function(){
+    $('#popup').fadeOut('slow');
+    $('.popup-overlay').fadeOut('slow');
+    return false;
+  });
+/* *************************** END FRANK CODE ***************** */
+
+</script>
+
+
+<style>
+/* *************************** FRANK CODE ***************** */
+
+#popup {
+  left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 350px;
+    z-index: 1001;
+}
+
+#scrollContent{
+  overflow: scroll; 
+  height: 320px;
+}
+
+.content-popup {
+  margin:0px auto;
+  margin-top:120px;
+  position:relative;
+  padding:10px;
+  width:500px;
+  height: 350px;
+  min-height:250px;
+  border-radius:4px;
+  background-color:#FFFFFF;
+  box-shadow: 0 2px 5px #666666;
+}
+
+.content-popup h2 {
+  color:#48484B;
+  border-bottom: 1px solid #48484B;
+  margin-top: 0;
+  padding-bottom: 4px;
+}
+
+.popup-overlay {
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  display:none;
+  background-color: #777777;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.close {
+  position: absolute;
+    right: 15px;
+}
+/* *************************** END FRANK CODE ***************** */
+
+</style>

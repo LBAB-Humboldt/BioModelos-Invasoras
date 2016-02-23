@@ -1,0 +1,13 @@
+<div class="cajas2 faqtitle w610">
+	<h1>proponer grupo</h1>
+<p>Ingrese la información a continuación sobre el grupo que desea sugerir para que podamos contactarlo:</p>
+<br \>
+<%= simple_form_for :message, :url => {:controller => "groups", :action => "email_new_group" }, :html => {:class => 'forma' } do |f| %>
+    <%# f.input :name, :maxlength => 50, :placeholder => "Nombre", :name => "nombre", label: false%>
+    <%# f.input :email, :maxlength => 50, :placeholder => "E-mail de contacto", :name => "email", label: false %>
+    <%= f.input :subject, :maxlength => 50, :placeholder => "Nombre del grupo", :name => "asunto", label: false %>
+    <%= f.input :content, :placeholder => "Descripción del grupo", :as => :text, :input_html => {:maxlength => 800, :cols => "20", :rows => "12"}, :name => "cuerpo", label: false %>
+    <%= f.button :submit, :value => "ENVIAR", :class => 'boton1'%>
+    <%= link_to "CANCELAR", '', {:id => 'can-newgroup-btn', :class => 'boton1 botchanges'}%>
+<% end %>
+</div>

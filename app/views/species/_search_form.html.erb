@@ -1,0 +1,50 @@
+
+<div id="class_checker">
+  <label>
+    <input type="radio" name="taxon" value="" checked="checked"/>
+    <%= image_tag("nocateg.png", :title => 'Todas') %>
+  </label>
+  <label>
+    <input type="radio" name="taxon" value="1" />
+    <%= image_tag("anfibiosg.png", :title => 'Anfibios') %>
+  </label>
+  <label>
+    <input type="radio" name="taxon" value="2" />
+    <%= image_tag("avesg.png", :title => 'Aves') %>
+  </label>
+  <label>
+    <input type="radio" name="taxon" value="3" />
+    <%= image_tag("invertebradosg.png", :title => 'Invertebrados') %>
+  </label>
+  <label>
+    <input type="radio" name="taxon" value="4" />
+    <%= image_tag("mamiferosg.png", :title => 'Mamíferos') %>
+  </label>
+  <label>
+    <input type="radio" name="taxon" value="5" />
+    <%= image_tag("pecesg.png", :title => 'Peces') %>
+  </label>
+  <label>
+    <input type="radio" name="taxon" value="6" />
+    <%= image_tag("reptilesg.png", :title => 'Reptiles') %>
+  </label>
+  <label>
+    <input type="radio" name="taxon" value="7" />
+    <%= image_tag("plantasg.png", :title => 'Plantas') %>
+  </label>
+</div>
+
+<%= form_tag({:controller => :species, :action => :species_models}, {:method => :get, :remote => true, :id => 'sp_search_form'})  do %>
+  <%= text_field_tag :query, '', :id => 'search_field', :placeholder => 'Ingrese nombre de la especie', :collection => 'get_species_name', :include_blank => false, :rel => 'autocomplete' %>
+  <%= hidden_field_tag 'species_id' %>
+  <%= hidden_field_tag 'class_id'%>
+  <%= submit_tag 'ir', :name => nil, :class => 'searchbtn', :id => 'species_src_btn' %>
+  <br>
+  <input type="checkbox" name="category[]" value="1" id="specie_category1">Invasoras
+    <input type="checkbox" name="category[]" value="2" id="specie_category2">Amenazadas
+  <input type="checkbox" name="category[]" value="3" id="specie_category3">Endémicas
+<% end %>
+<p class="clearfix">Busqueda por nombre científico.</p>
+
+
+

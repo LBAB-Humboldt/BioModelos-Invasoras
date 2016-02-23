@@ -1,0 +1,121 @@
+<div class="fondo3">
+<article class="faqshow">
+	<div class="hs2 clearfix" id="tabs">
+                <ul class="tabsnav w100 clearfix">
+                  <li><a href="#tabs-1" class='tabtn'>BLOG</a></li>     
+                  <li><a href="#tabs-2" class='tabtn'>DOCS</a></li>     
+                  <li><a href="#tabs-3" class='tabtn'>FAQ</a></li>
+                </ul>
+	<div id="tabs-1">
+		<div class="faqtitle clearfix">
+		<h1>BLOG</h1>
+		<h2></br>BioModelos</h2>
+		</div>
+		<ul>
+			<li class="blogg">
+				<h4>Interactúa con la red BioModelos utilizando las nuevas funciones de grupos</h4>
+				<h5>Publicado por <b>Jorge Velásquez</b> · <i>OCT 2015</i></h5>
+				<p>Los usuarios de BioModelos ahora podrán interactuar entre si y recibir notificaciones de la actividad registrada en la plataforma sobre sus especies de interés, uniéndose a alguno de los <a href="http://biomodelos.humboldt.org.co/groups" target="_blank">grupos temáticos existentes en BioModelos</a> o <a href="mailto:biomodelos@humboldt.org.co">sugiriendo la creación de uno nuevo.</a></p>
+				<p>Cada grupo consta de moderadores y miembros. Los moderadores son expertos que se postulan de manera voluntaria o son elegidos por la comunidad y su función es revisar y aprobar el ingreso de nuevos miembros así como vincular especies al grupo. Asimismo pueden enviar comunicados a todos los usuarios, actualizar el perfil del grupo y servir de puente para transmitir solicitudes de los usuarios al equipo coordinador de BioModelos. Los miembros reciben notificaciones de la actividad sobre las especies del grupo, sugieren especies y pueden invitar a otros expertos a unirse al grupo.</p>
+				<p>Consulta el <a href="http://biomodelos.humboldt.org.co/groups" target="_blank">directorio de grupos</a> para unirte o sugerir un nuevo grupo. Además, actualizando tu perfil podrás escoger la frecuencia con que recibirás notificaciones de BioModelos y adicionar una imagen a tu perfil.</p>
+			</li>
+			<li class="blogg">
+				<h4>Campaña especie del mes</h4>
+				<h5>Publicado por <b>Jorge Velásquez</b> · <i>OCT 2015</i></h5>
+				<div class="noround"><%= image_tag("frailejon.jpg") %></div>
+				<p><b>La campaña especie del mes busca acercar a expertos en distintos grupos taxonómicos a BioModelos mediante la generación de un modelo consenso de distribución.</b> Una de las campañas más exitosas se realizó durante los meses de abril y mayo con la Reinita del Canadá, en asocio con <a href="http://calidris.org.co/" target="_blank">Calidris</a>, líderes de la <a href="https://griffingroups.com/groups/profile/32315/canada-warbler-international-conservation-initiative" target="_blank">Iniciativa Internacional de Conservación de la Reinita de Canadá en Colombia.</a> Mediante esta campaña obtuvimos un total de 267 aportes de 23 expertos que permitieron la generación de un modelo consenso para la temporada de <a href="http://biomodelos.humboldt.org.co/models/visor?species_id=5091" target="_blank">paso</a> y de <a href="http://biomodelos.humboldt.org.co/models/visor?species_id=5090" target="_blank">invierno</a> de la reinita. Además se identificaron 48 registros con georeferencias dudosas e ingresaron 17 nuevos registros a la base de datos  que a futuro permitirán el desarrollo de mejores modelos para esta especie.</p>
+				<p>En enero iniciaremos la campaña <b>Especie del mes:</b> Frailejón (<i>Espeletia hartwegiana</i>). Entérate cómo participar siguiendo al Instituto Humboldt a través de redes sociales o suscribiéndote al boletín BioModelos. ¿Quieres proponer una especie? ¡Escríbenos a <a href="mailto:biomodelos@humboldt.org.co">biomodelos@humboldt.org.co!</a></p>
+			</li>
+			<li class="blogg">
+				<h4>Taller BioModelos:<br>Zamias y Magnolias</h4>
+				<h5>Publicado por <b>Jorge Velásquez</b> · <i>OCT 2015</i></h5>
+				<div class="noround"><%= image_tag("zamiasym.jpg") %></div>
+				<p>El pasado 9 y 10 de septiembre, el Laboratorio de Biogeografía Aplicada y el Programa de Ciencias de la Biodiversidad del Instituto Humboldt ofrecieron el taller de BioModelos para expertos en Zamias y Magnolias. En este taller participaron botánicos pertenecientes a varias universidades, jardines botánicos CARs y ONGs del país quienes validaron la información base y los modelos de distribución generados para 54 especies pertenecientes a estos grupos. Como resultado de la activa participación de los expertos invitados, se generaron mapas de experto para 13 especies de Magnolias, se incorporaron 70 nuevos registros en la base de datos y se generó un mapa híbrido (modelo estadístico mejorado con opinión de expertos) para <i>Magnolia hernandezii.</i> Adicionalmente, durante el taller realizamos la primera prueba en campo de la nueva funcionalidad de grupos de BioModelos, con la constitución de los grupos <a href="http://biomodelos.humboldt.org.co/groups/1" target="_blank"><i>Zamias de Colombia</i></a> y <a href="http://biomodelos.humboldt.org.co/groups/3" target="_blank"><i>Magnolias de Colombia.</i></a></p>
+				<p>Visita BioModelos y conoce los nuevos modelos de Magnolias y Zamias de Colombia.</p>
+				<h6>Próximos eventos</h6>
+				<p><b>Taller Invasoras</b> – Enero 2016.</p>
+				</p>
+			</li>
+		</ul>
+	</div>
+	<div id="tabs-2" ng-controller="group_users_ctrl">
+		<div class="faqtitle clearfix">
+		<h1>DOCS</h1>
+		<h2>nuestros</br>procesos</h2>
+		</div>
+	
+		<div class="wimg100" ng-show="news==1">
+			<%= image_tag("experto.jpg") %>
+			<button ng-click="news=!1" class="byebye">x</button>
+		</div>	
+		<div class="wimg100" ng-show="news==2">
+			<%= image_tag("news2b.jpg") %>
+			<button ng-click="news=!2" class="byebye">x</button>
+		</div>	
+		<div class="wimg100" ng-show="news==3">
+			<%= image_tag("news3b.jpg") %>
+			<button ng-click="news=!3" class="byebye">x</button>
+		</div>	
+		<div class="wimg100" ng-show="news==4">
+			<%= image_tag("news4b.jpg") %>
+			<button ng-click="news=!4" class="byebye">x</button>
+		</div>
+
+		<div class="clearfix"></div>
+
+		<button ng-click="news=1" class="cajathumb">
+			<%= image_tag("news1.jpg") %>
+			<p>+</p>
+		</button>		
+		<button ng-click="news=2" class="cajathumb">
+			<%= image_tag("news2.jpg") %>
+			<p>+</p>
+		</button>		
+		<button ng-click="news=3" class="cajathumb">
+			<%= image_tag("news3.jpg") %>
+			<p>+</p>
+		</button>		
+		<button ng-click="news=4" class="cajathumb">
+			<%= image_tag("news4.jpg") %>
+			<p>+</p>
+		</button>
+	</div>
+	<div id="tabs-3">
+		<div class="faqtitle clearfix">
+		<h1>FAQ</h1>
+		<h2>preguntas</br>frecuentes</h2>
+		</div>
+		<ul>
+			<li class="qya">
+				<h3>¿De dónde provienen los datos de distribución?</h3>
+				<p>Los datos usados en los modelos que se presentan aquí provienen principalmente de bases de datos biológicos de acceso libre, como el Sistema de Información de Biodiversidad de Colombia (SIB, <a href="http://www.sibcolombia.net/" target="_blank">www.sibcolombia.net</a>) y el Global Biodiversity Information Facility (GBIF, <a href="http://www.gbif.org/" target="_blank">www.gbif.org</a>) . Una pequeña proporción de los datos proviene de proyectos puntuales del Instituto Humboldt así como de convenios con otros institutos de investigación como el SINCHI e INVEMAR.</p>
+			</li>
+			<li class="qya">
+			<h3>¿Cómo se procesan los datos de distribución?</h3>
+			<p>Cada registro es validado taxonómica y geográficamente. La validación taxonómica consiste en estandarizar la nomenclatura científica usando Catalogue of Life (<a href="http://www.catalogueoflife.org/" target="_blank">www.catalogueoflife.org</a>). Los registros con nombres científicos que no están indexados por Catalogue of Life (bien sea como nombre válido o como sinónimo) son excluidos del modelamiento. La validación geográfica consiste en verificar que el país, departamento y municipio reportado para cada registro coincida con el país, departamento y municipio en el que caen las coordenadas reportadas del registro. Los registros que no superan ese filtro geográfico son excluidos del modelamiento.</p>
+			</li>
+			<li class="qya">
+			<h3>¿Qué variables ambientales se usan en el modelamiento?</h3>
+			<p>En la actualidad utilizamos el conjunto de 19 variables bioclimáticas provisto en WorldClim (<a href="http://www.worldclim.org/bioclim" target="_blank">www.worldclim.org/bioclim</a>). Aunque existe un cierto grado de redundancia en esas variables, muchas de estas son excluidas automáticamente durante el desarrollo de los modelos.</p>
+			</li>
+			<li class="qya">
+			<h3>¿Cómo modelan las distribuciones de especies?</h3>
+			<p>Los modelos presentados aquí fueron desarrollados utilizando MAXENT (<a href="http://www.cs.princeton.edu/~schapire/maxent/" target="_blank">www.cs.princeton.edu/~schapire/maxent</a>), un método basado en el principio de máxima entropía. Aunque existen muchos métodos de modelamiento y varios autores abogan por el uso de múltiples técnicas estadísticas, preferimos concentrarnos en un solo método que ha demostrado funcionar bien y que, correctamente parametrizado, es equivalente a muchos de los otros métodos existentes (e.g. modelos lineales, modelos aditivos, etc.). Nosotros preferimos la simplicidad en el modelo, y por eso mismo, aceptamos únicamente respuestas de tipo linear, cuadrático y bisagra, que capturan adecuadamente las respuestas de las especies al ambiente.</p>
+			</li>
+			<li class="qya">
+			<h3>¿Cómo convierten las predicciones continuas de MAXENT a mapas de presencia-ausencia?</h3>
+			<p>Dado que ningún umbral funciona consistentemente bien en los modelos construidos con datos de sólo presencia, nuestros modelos son convertidos a una escala binaria usando el umbral de mínima presencia (modelos 1 y 2) o el umbral de 10% de omisión (modelos 3 y 4). En el primer caso, se toma como umbral índice de idoneidad mínimo asociado con un registro de presencia. En el segundo, se toma como umbral el décimo percentil de los índices de idoneidad asociados con los registros de presencia utilizados en el modelamiento.</p>
+			</li>
+			<li class="qya">
+				<h3>¿Cómo se incluyen las habilidades de dispersión de las especies en los modelos?</h3>
+				<p>En general las especies están limitadas a regiones específicas por qué no tienen la capacidad de dispersarse hacia regiones que poseen condiciones adecuadas para su supervivencia. Dado que los modelos presentados aquí no incluyen información sobre las capacidades de dispersión de las especies, estos a menudo predicen la distribución de las especies en áreas inaccesibles a estas (modelos 1 y 3). Nuestro método para reducir esa sobrepredicción consiste en eliminar aquellos parches de distribución (áreas continuas de condiciones adecuadas para las especies) que carecen de evidencia de ocupación (modelos 2 y 4). En otras palabras, escogemos los parches que tienen al menos un registro de presencia de las especies. </p>
+			</li>
+		</ul>
+	</div>
+	</div>
+</article>	
+</div>
+
+<script>
+	$( "#tabs" ).tabs();
+</script>

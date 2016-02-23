@@ -1,0 +1,18 @@
+<section class="resultados2">
+	<div class="titulosp"><%= @species.sci_name %></div>
+
+	<% @species_reviews.each do |sr| %>
+		<a href="#" class="vermodelo mright" id="load-link-review">
+			<%= image_tag "ver.png", title:"Ver" %>
+			<%= hidden_field(:sp_review, :geoJSON, :value => sr.geoJSON) %>
+		</a>
+		<a href="#" class="vermodelo" id="dislike"><%= image_tag "borrar.png", title:"No Apruebo" %></a>
+		<a href="#" class="vermodelo" id="like"><%= image_tag "like.png", title:"Apruebo" %></a>
+		<div class="minavatar2"><%= image_tag("editicon.png") %></div>
+		<li class="datosaportes">
+		<%= link_to User.find(sr.user_id).name, root_url + 'users/'+ sr.user_id.to_s, {:class => 'feeduserp' } %>
+		<div class="feedtimep"><%= sr.updated_at %></div>
+		<p class="feedcontentp"><%= Model.find(sr.model_id).description %></p>
+	<% end %>
+	</li>
+</section>

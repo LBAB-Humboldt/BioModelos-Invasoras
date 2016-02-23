@@ -1,0 +1,18 @@
+<ul class="comperfil" id="altcomp">
+	<% @reviews.each do |review| %>
+		<% if @user.id == get_current_user_id%>	
+    		<!-- <a href="#" class="vermodelo mright"><%= image_tag "borrar.png", title:"Borrar" %></a> -->
+    		<%= link_to review_path(review), method: :delete, data: { confirm: '¿Quiere borrar la edición?' }, :class => "vermodelo mright" do %>
+    			<%= image_tag "borrar.png", title:"Borrar" %>
+    		<% end %>
+    	<% end %>
+    <!-- <a href="#" class="vermodelo"><%= image_tag "ver.png", title:"Ver" %></a> -->
+	<div class="minavatar2"><%= image_tag("editicon.png") %></div>
+		<li class="datosaportes">
+		  <% s_id = Model.find(review.model_id).species_id.to_s %>
+	      <%= link_to Species.find(s_id).sci_name, root_url + 'models/visor?species_id='+ s_id, {:class => 'feeduserp' } %>
+	      <div class="feedtimep"><%= review.created_at %></div>
+	      <p class="feedcontentp"><%= Model.find(review.model_id).description %></p>
+    	</li>
+	<% end %>
+</ul>

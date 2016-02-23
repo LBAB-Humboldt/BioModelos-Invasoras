@@ -1,0 +1,3 @@
+$('#comment_body').attr("placeholder", "Respondiendo mensaje a <%=j User.find(Comment.find(@id_parent).user_id).name %>");
+if('<%= @id_parent %>') $('#comment-parent-field').val('<%= @id_parent %>');
+$('#comment_body').focus();

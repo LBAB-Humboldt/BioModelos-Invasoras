@@ -1,0 +1,9 @@
+<div class="cajas2 formedgroup forma mb45px">
+  <%= form_tag({controller: "groups", action: "bulk_email"}, method: "post", class: "nifty_form") do  %>
+        <h3>Enviar email a miembros del grupo </h3>
+        <%= hidden_field_tag :id, @group.id %>
+        <%= text_field_tag :subject, '', :placeholder => 'Asunto' %>
+        <%= text_area_tag :message, nil, :rows => 4, :class=>"textarea2" %>
+        <%= submit_tag 'Enviar', :class=> "sugspp nobtn" %>
+  <% end %>
+</div>

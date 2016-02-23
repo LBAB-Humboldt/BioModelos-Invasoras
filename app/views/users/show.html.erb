@@ -1,0 +1,167 @@
+<div class="editform"></div>
+<div class="botonesperfil clearfix">
+	<% if @user.id == get_current_user_id%>	
+		<%= link_to '', {:action => 'edit_profile'}, :remote => true, :class =>"editperfil", :title=>"Editar Perfil" %>
+	<% end %>
+	<div class="funcperfil">
+		<a href="#"></a>
+		<a href="#"></a>
+	</div>
+</div>
+<div class="perfilline" id="lineap"></div>
+
+<div class="contenedor">
+
+	<div class="perfilcol1 clearfix fixfooter" id="col1p">
+
+		<article class="perfildata" id="alturap">
+			<div class="perfilimg">
+				<%= image_tag(@user.avatarUrl.url(:thumb150).to_s) %>
+			</div>
+			<section class="perfilexp">
+				<h1><%= @user.name %></h1>
+				<% if !@user.interestGroups.blank? %>
+					<h2>Especialista en <%= @user.interestGroups %></h2>
+				<% end %>	
+				<h3><%= @user.organization %></h3>
+				<h4><%= @user.location %></h4>
+        <p><%= @user.bio %></p>
+
+					<% if user_signed_in? %>
+	                  <% if @user.id != current_user.id%>
+	                      <%= simple_form_for @relationship do |f| %>
+	                          <%= f.hidden_field :user_id, :value =>  @user.id %>
+	                          <%= f.submit @text_relationship, :class => "sugspp nobtn seguir" %>
+	                  <% end %>
+	        <% end %>
+	      <% end %>
+			</section>
+		</article>
+
+		<div class="clearfix"></div>
+      
+    <div class="cajas2 hs2 mt20 fixfooter" id="tabs">
+                <ul class="tabsnav w100">
+                  <li><a href="#tabs-1" class='tabtn'>Noticias</a></li>     
+                  <li><a href="#tabs-2" class='tabtn'>Actividades</a></li>
+                </ul>
+
+      <div id="tabs-1">
+
+                <h5> Notificaciones de actividad de grupos y usuarios que sigues</h5>
+
+                  <% @user.wall_notifications.each do |notification| %>
+                    <%if notification.type=='new_specie' %>
+                        <p class="feedtimep lh1"><%= notification.updated_at.to_time.strftime("%F %R") %></p>
+                        <p class="notif">La especie <a href="/models/visor?species_id=<%= notification.user_id %>"><%= notification.user_name %> </a> fue incluida en el grupo <a href="/groups/<%= notification.id %>"><%= notification.name %></a></p>
+                    <% end %>
+                    <%if notification.type=='new_user' %>
+                        <p class="feedtimep lh1"><%= notification.updated_at.to_time.strftime("%F %R") %></p>
+                        <p class="notif"><a href="/users/<%= notification.user_id %>"><%= notification.user_name %> </a> fue aceptado en el grupo <a href="/groups/<%= notification.id %>"><%= notification.name %></a></p>
+                    <% end %>
+                    <%if notification.type=='review' %>
+                        <p class="feedtimep lh1"><%= notification.updated_at.to_time.strftime("%F %R") %></p>
+                        <p class="notif"><a href="/users/<%= notification.user_id %>"><%= notification.user_name %> </a> realizó un aporte sobre la especie <a href="/species/<%= notification.id %>"><%= notification.name %></a></p>
+                    <% end %>
+                  <% end %>
+      </div>
+      
+      <div id="tabs-2">
+
+      <% if user_signed_in? %>
+        <% if @user.id != current_user.id%>
+          
+                  <% @user.own_notifications.each do |notification| %>
+
+                    <%if notification.state_id==1 %>
+                        <p class="feedtimep lh1"><%= notification.updated_at.to_time.strftime("%F %R") %></p>
+                        <p class="notif">El usuario se ha unido al grupo <a href="/groups/<%= notification.id %>"><%= notification.name %></a></p>
+                    <% end %>
+                    <%if notification.state_id==4 %>
+                        <p class="feedtimep lh1"><%= notification.updated_at.to_time.strftime("%F %R") %></p>
+                        <p class="notif">El usuario se ha retirado del grupo <a href="/groups/<%= notification.id %>"><%= notification.name %></a></p>
+                    <% end %>
+                    <%if notification.state_id==20 %>
+                        <p class="feedtimep lh1"><%= notification.updated_at.to_time.strftime("%F %R") %></p>
+                        <p class="notif">El usuario realizó el un aporte sobre la especie: <a href="/species/<%= notification.id %>"><%= notification.name %></a></p>
+                    <% end %>
+
+                  <% end %>
+
+          <% else %>
+          
+                  <% @user.own_notifications.each do |notification| %>
+                      <%if notification.state_id==1 %>
+                            <p class="feedtimep lh1"><%= notification.updated_at.to_time.strftime("%F %R") %></p>
+                            <p class="notif">Tu solicitud para unirte al grupo: <a href="/groups/<%= notification.id %>"><%= notification.name %></a> fue <b>Aprobada</b></p>
+                      <% end %>
+                      <%if notification.state_id==2 %>
+                            <p class="feedtimep lh1"><%= notification.updated_at.to_time.strftime("%F %R") %></p>
+                            <p class="notif">Tu solicitud para unirte al grupo: <a href="/groups/<%= notification.id %>"><%= notification.name %></a> esta <b>Pendiente de aprobación</b></p>
+                      <% end %>
+                      <%if notification.state_id==3 %>
+                            <p class="feedtimep lh1"><%= notification.updated_at.to_time.strftime("%F %R") %></p>
+                            <p class="notif">Tu solicitud para unirte al grupo: <a href="/groups/<%= notification.id %>"><%= notification.name %></a> fue <b>Rechazada</b></p>
+                      <% end %>
+                      <%if notification.state_id==4 %>
+                            <p class="feedtimep lh1"><%= notification.updated_at.to_time.strftime("%F %R") %></p>
+                            <p class="notif">Te retiraste del grupo: <a href="/groups/<%= notification.id %>"><%= notification.name %></a></p>
+                      <% end %>
+                      <%if notification.state_id==20 %>
+                            <p class="feedtimep lh1"><%= notification.updated_at.to_time.strftime("%F %R") %></p>
+                            <p class="notif">Realizaste un aporte sobre la especie: <a href="/species/<%= notification.id %>"><%= notification.name %></a></p>
+                      <% end %>
+                  <% end %>
+                
+          <% end %>
+        <% end %>
+      </div>
+    
+    </div>
+	</div>
+	
+	<div class="perfilcol2 fixfooter">
+        <div class="cajas2 formedgroup pabs">
+            <h3>aportes</h3>
+            <%= render 'reviews/reviews_by_user' %>
+        </div>
+
+        <div class="cajas2 formedgroup fixfooter pabs">
+          <h3>Grupos del usuario</h3>
+            <% @user_groups.each do |user_group| %>
+            <div class="grupogen2 clearfix">
+              <ul>
+                <li class="crop"><%= link_to image_tag(user_group.group.logo.url(:thumb120).to_s), user_group.group %></li>
+                <li class="grtit"><%= link_to user_group.group.name, user_group.group %></li>
+                <li><%= user_group.group.description %></li>
+              </ul>
+            </div>
+            <% end %>
+        </div>
+
+  </div>
+
+</div>
+
+
+<script>
+var ready;
+ready = function() {
+
+  	function recalcular (){
+		var altura = $('#alturap').height();
+		$('#lineap').height(altura);
+		$('#col1p').css( "margin-top", -altura);
+	}
+	recalcular();
+	$(window).resize(function() {
+		recalcular();
+	});
+};
+
+$(document).ready(ready);
+$(document).on('page:change', ready);
+
+$( "#tabs" ).tabs();
+
+</script>

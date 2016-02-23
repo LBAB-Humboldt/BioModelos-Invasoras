@@ -1,0 +1,46 @@
+<div class="fondo3 fondo5">
+	<article class="faqshow w600">
+		<div class="faqtitle clearfix">
+			<h1>Especies con Actividad</h1></div>
+			<div class="qya">
+			<h2>Listado de especies con modelos para validar</h2></br>
+				<div class="ilb">
+				<h3>Anfibios</h3>
+					<% @species.where(:class_id => 1, :current => true).order('sci_name ASC').each do |sp| %>
+						<p><a href="/models/visor?species_id=<%= sp.id %>"><%= sp.sci_name %></a><br/>
+					<% end %>
+				<br>
+				<h3>Aves</h3>
+					<% @species.where(:class_id => 2, :current => true).order('sci_name ASC').each do |sp| %>
+						<p><a href="/models/visor?species_id=<%= sp.id %>"><%= sp.sci_name %></a><br/>
+					<% end %>
+				<br>
+				<h3>Invertebrados</h3>
+					<% @species.where(:class_id => 3, :current => true).order('sci_name ASC').each do |sp| %>
+						<p><a href="/models/visor?species_id=<%= sp.id %>"><%= sp.sci_name %></a><br/>
+					<% end %>
+				<br>
+				<h3>Mamíferos</h3>
+					<% @species.where(:class_id => 4, :current => true).order('sci_name ASC').each do |sp| %>
+						<p><a href="/models/visor?species_id=<%= sp.id %>"><%= sp.sci_name %></a><br/>
+					<% end %>
+				<br>
+				<h3>Peces</h3>
+					<% @species.where(:class_id => 5, :current => true).order('sci_name ASC').each do |sp| %>
+						<p><a href="/models/visor?species_id=<%= sp.id %>"><%= sp.sci_name %></a><br/>
+					<% end %>
+				<br>
+				<h3>Reptiles</h3>
+					<% @species.where(:class_id => 6, :current => true).order('sci_name ASC').each do |sp| %>
+						<p><a href="/models/visor?species_id=<%= sp.id %>"><%= sp.sci_name %></a><br/>
+					<% end %>
+				<br>
+				<h3>Plantas</h3>
+					<% @species.where(:class_id => 7, :current => true).order('sci_name ASC').each do |sp| %>
+						<p><a href="/models/visor?species_id=<%= sp.id %>"><%= sp.sci_name %></a><br/>
+					<% end %>
+				</div>
+
+			</div>
+	</article>	
+</div>

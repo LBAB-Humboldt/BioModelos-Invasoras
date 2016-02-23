@@ -1,0 +1,5 @@
+<%= form_for @comment, :remote => true, :id => 'edit-comment-form' do |f| %>
+		<!--  <%= f.hidden_field :comment_id, :value => @comment_id, :id => 'comment-parent-field' %> -->
+		 <%= f.text_area :body, :class => 'commeinput', :placeholder => 'Comentario', :value => @comment.body %>
+	     <%= f.submit :submit, :disable_with => "Submitting…", :class => 'reply replyfl replybotoon', :value => 'Guardar' %>
+<% end %>

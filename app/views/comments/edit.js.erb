@@ -1,0 +1,11 @@
+$("#comment-" + <%= @comment.id %>).find("div.comment-space").html('<%=j render partial: 'comments/edit' %>');
+$("#comment-" + <%= @comment.id %>).find("div.btn-edit-cmt").html('<%= link_to "Cancelar", :back, :class => "reply replyfl", :id => "cancel-btn-cmt" %>');
+$("#comment-" + <%= @comment.id %>).find("div.btn-reply-cmt").html('');
+$("body").on("click", "#cancel-btn-cmt", function (e) {
+	e.preventDefault();
+	$.ajax({
+	    type: "GET",
+	    url: "/species/species_models",
+	    data: { species_id: <%= @comment.commentable_id %>}
+	});
+});

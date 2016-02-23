@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="author" content="BioModelos - biomodelos@humboldt.org.co">
+    <title>Mensaje administrador</title>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,400italic' rel='stylesheet' type='text/css'>
+<style>
+* {
+  margin:0;
+  padding:0;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+}
+
+a {
+  text-decoration: none;
+  color: #f7be15;
+}
+
+.linewidth {
+  width: 100%;
+  height: 150px;
+  background-color: #f7be15;
+}
+
+.contenido {
+  width: 550px;
+  max-width: calc(100% - 100px);
+  background-color: #fff;
+  margin-top: -70px;
+  margin-left: 30px;
+  padding: 20px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+h3 {
+  color: #424242;
+  margin-bottom: 35px;
+}
+
+h3 i,
+h3 b {
+  color: #d73d2a;
+}
+
+h3 span {
+  color: #f7be15;
+}
+
+</style>
+
+</head>
+<body>
+<div class="linewidth"></div>
+<div class ="contenido">
+
+<%
+case @periodicity
+  when 1
+  subj = "Notificaciones de actividad diaria de grupos y usuarios que sigues en Biomodelos"
+  when 2
+  subj = "Notificaciones de actividad semanal de grupos y usuarios que sigues en Biomodelos"
+  when 3
+  subj = "Notificaciones de actividad mensual de grupos y usuarios que sigues en Biomodelos"
+end
+%>
+<h3><%= subj %></h3><br/>
+<%= @name %><br/>
+email:<%= @email %><br/>
+
+  <table>
+    <% @notifications.each do |notification| %>
+        <%if notification.type=='new_specie' %>
+            <tr>
+              <td>&nbsp;</td>
+              <td><%= notification.updated_at.to_time.strftime("%F %R") %></td>
+              <td>La especie <b><%= notification.user_name %></b> fue incluida e el grupo <b><%= notification.name %></b></td>
+            </tr>
+        <% end %>
+        <%if notification.type=='new_user' %>
+            <tr>
+              <td>&nbsp;</td>
+              <td><%= notification.updated_at.to_time.strftime("%F %R") %></td>
+              <td><b><%= notification.user_name %></b> fue aceptado en el grupo <b><%= notification.name %></b></td>
+            </tr>
+        <% end %>
+        <%if notification.type=='review' %>
+            <tr>
+              <td>&nbsp;</td>
+              <td><%= notification.updated_at.to_time.strftime("%F %R") %></td>
+              <td><b><%= notification.user_name %></b> realizó un aporte sobre la especie <b><%= notification.name %></b></td>
+            </tr>
+        <% end %>
+    <% end %>
+  </table>
+</div>
+</body>
+</html>

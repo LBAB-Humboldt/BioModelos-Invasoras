@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" style="margin: 0; padding: 0;">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="author" content="BioModelos - biomodelos@humboldt.org.co">
+    <title>Mensaje administrador</title>
+	<link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,400italic' rel='stylesheet' type='text/css'>   
+
+</head>
+<body style="font-family: 'Lato', sans-serif; font-size: 14px; margin: 0; padding: 0;">
+<div class="linewidth" style="width: 100%; height: 150px; background-color: #f7be15; margin: 0; padding: 0;"></div>
+<div class="contenido" style="width: 550px; max-width: calc(100% - 100px); box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); background-color: #fff; margin: -70px 0 0 30px; padding: 20px;">
+
+<h3 style="color: #424242; margin: 0 0 35px; padding: 0;">Hola, moderador del grupo <b style="color: #f7be15; margin: 0; padding: 0;"><%= @group.name %></b>
+</h3>
+Se ha recibido una sugerencia de especie para agregar al grupo con la siguiente información:<br style="margin: 0; padding: 0;"><br style="margin: 0; padding: 0;">
+Solicitud recibida: <br style="margin: 0; padding: 0;">
+<br style="margin: 0; padding: 0;">
+Usuario: <%= @user.name %><br style="margin: 0; padding: 0;">
+Organización: <%= @user.organization %><br style="margin: 0; padding: 0;">
+<br style="margin: 0; padding: 0;">
+<a href="http://biomodelos.humboldt.org.co/users/<%= @user.id %>" style="text-decoration: none; color: #f7be15; margin: 0; padding: 0;">ver perfil</a><br style="margin: 0; padding: 0;"> 
+<br style="margin: 0; padding: 0;">
+Especie sugerida: <b style="margin: 0; padding: 0;"><a href="http://biomodelos.humboldt.org.co/models/visor?species_id=<%= @species.id %>" style="text-decoration: none; color: #f7be15; margin: 0; padding: 0;"><%= @species.sci_name %></a></b><br style="margin: 0; padding: 0;">
+<br style="margin: 0; padding: 0;"> 
+Para realizar alguna acción sobre esta solicitud, ingrese al perfil del <a href="http://biomodelos.humboldt.org.co/groups/<%= @group.id %>" style="text-decoration: none; color: #f7be15; margin: 0; padding: 0;">grupo</a> y allí podrá consultar las solicitudes pendientes haciendo clic en el botón "Ver solicitudes Pendientes".<br style="margin: 0; padding: 0;">
+<br style="margin: 0; padding: 0;">
+Atentamente,<br style="margin: 0; padding: 0;"><br style="margin: 0; padding: 0;">
+	Equipo BioModelos
+	<h3 style="color: #424242; margin: 0 0 35px; padding: 0;">
+<a href="http://biomodelos.humboldt.org.co" style="text-decoration: none; color: #d73d2a; margin: 0; padding: 0;">biomodelos.humboldt.org.co</a><br style="margin: 0; padding: 0;">
+	biomodelos@humboldt.org.co</h3>
+</div>
+</body>
+</html>

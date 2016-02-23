@@ -1,0 +1,15 @@
+$(".pointBox").html(""); //Clear div before rendering again
+<% if user_signed_in? %>
+	$('.pointBox').html('<%=j render partial: 'species/comment_point', locals: { :point_comment => @point_comment } %>');
+	/* Set lat & lon points*/
+	$('#point_comment_species_id').val($('#species_id').val());
+	$('#point_comment_lat').val($('#point_lat').html());
+	$('#point_comment_lon').val($('#point_lon').html());
+	/* Cancel button */
+	$("#cancel-point-cmt").click(function(e){
+		e.preventDefault();
+		$(".pointBox").html("");
+	});
+<% else %>
+	alert("Debe estar registrado para poder reportar un registro");
+<% end %>

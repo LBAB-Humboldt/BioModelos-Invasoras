@@ -1,0 +1,30 @@
+
+<section class="contenedoredit">
+
+<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'formasignin nobgimg' }) do |f| %>
+  <%= f.error_notification %>
+
+<h2 class="avatarlink nofl">Edición Perfil</h2>
+<p>Usuario: <%= resource.email %></p>
+    <!--<%= f.input :email, :required => true, :autofocus => true %>
+
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
+    <% end %>-->
+
+    <%= f.input :name, :required => true, :autofocus => true, label: false, :placeholder => "Nombre", :input_html => { :class => "inputforma inp2" } %>
+    <%= f.input :location, label: false, :placeholder => "Ubicación", :input_html => { :class => "inputforma inp2" } %>
+    <%= f.input :organization, label: false, :placeholder => "Organización", :input_html => { :class => "inputforma inp2" } %>
+    <%= f.input :bio, :as => :text, label: false, :placeholder => "Biografía resumida", :input_html => { :class => "inputforma inp2", :cols => 50, :rows => 8, :maxlength => 1000 } %>
+    <%= f.input :interestGroups, label: false, :placeholder => "Grupo(s) taxonómico(s) de interés", :input_html => { :class => "inputforma inp2" } %>
+    <%= f.input :password, :autocomplete => "off", label: false, :placeholder => "Contraseña", :required => false, :input_html => { :class => "inputforma inp2" } %>
+    <%= f.input :password_confirmation, label: false, :placeholder => "Confirmar contraseña", :required => false, :input_html => { :class => "inputforma inp2" }, :hint => "Dejar en blanco lo no quiere cambiar" %>
+    <%= f.input :current_password, label: false, :placeholder => "Clave actual*", :hint => "*Necesaria para confirmar cambios", :required => true, :input_html => { :class => "inputforma inp2" }  %>
+    <%= link_to "Volver", :back, :class => "linkss" %>
+    <%= f.button :submit, "Guardar", :class => "bbton" %>
+
+<!--<h2>Cancel my account</h2>
+<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %></p>-->
+
+<% end %>
+</section>

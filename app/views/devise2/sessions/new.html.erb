@@ -1,0 +1,12 @@
+<div class="fondo2">
+	<section class="contenedor">
+	<%= simple_form_for(resource, :html => {:class => 'formalogin' }, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+    <%= f.input :email, :required => true, :autofocus => true, label: false, :placeholder => "Usuario* (email de registro)", :input_html => { :class => "inputforma" } %>
+    <%= f.input :password, :required => true, label: false, :placeholder => "Contraseña*", :input_html => { :class => "inputforma" } %>
+    <%= f.input :remember_me, inline_label: ' Recordarme', label: false, :input_html => { :class => "checkrec" }, :as => :boolean if devise_mapping.rememberable? %>
+    <%= f.button :button, "ingresar", :class => "bbton" %>
+    <div class="clearfix"></div><!--links float-->
+	<%= render "devise2/shared/links" %>
+<% end %>
+</section>
+</div>

@@ -1,0 +1,35 @@
+<div class="fondo1">
+    <section class="contenedor">
+
+<%= simple_form_for(resource, :html => {:class => 'formasignin fixfooter' }, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <%= f.error_notification %>
+<p>Completa los siguientes datos para generar tu perfil:</p>
+    <%= f.input :name, :required => true, :autofocus => true, label: false, :placeholder => "Nombre y Apellido *", :input_html => { :class => "inputforma inp2", :maxlength => 55 } %>
+    <%= f.input :interestGroups, label: false, :placeholder => "Grupo(s) taxonómico(s) de interés", :input_html => { :class => "inputforma inp2", :maxlength => 80 } %>
+    <%= f.input :location, label: false, :placeholder => "Ciudad o Municipio", :input_html => { :class => "inputforma inp2", :maxlength => 50 } %>
+    <%= f.input :organization, label: false, :placeholder => "Organización", :input_html => { :class => "inputforma inp2", :maxlength => 100 } %>
+<h1>Tu email no será público, es tu usuario.</h1>
+    <%= f.input :email, :required => true, label: false, :placeholder => "Mail (será nombre de usuario)*", :input_html => { :class => "inputforma inp2" } %>
+    <%= f.input :password, :required => true, label: false, :placeholder => "Contraseña *", :input_html => { :class => "inputforma inp2" } %>
+    <%= f.input :password_confirmation, :required => true, label: false, :placeholder => "Confirmar Contraseña *", :input_html => { :class => "inputforma inp2" } %>
+    <%= f.input :bio, :as => :text, label: false, :placeholder => "Biografía resumida (max 1000 caracteres)", :input_html => { :class => "inputforma inp2", :cols => 50, :rows => 7, :maxlength => 1000 } %>
+        <div class="stylebut">
+          subir Foto
+          <div class="wrapperbut">
+            <%= f.file_field :avatarUrl %>
+          </div>
+        </div>
+    <h1>Periodicidad de Notificaciones a email:</h1>
+    <%= f.select :periodicity_id, options_from_collection_for_select(@periodicities, 'id', 'name'), :default => 3 %>
+    <h1>Selecciona un grupo de interes:</h1>
+    <%= f.select :group_id, options_from_collection_for_select(@groups, 'id', 'name'), include_blank: 'Selecciona un Grupo *'  %>
+    <p><a ng-click="new_group=!new_group" style="cursor: pointer">Solicitar nuevo grupo</a></p>
+    <%= f.input :requested_group_name, :required => false, label: false, :placeholder => "Nombre del Nuevo Grupo *", :input_html => { :class => "inputforma inp2", :maxlength => 55, :'ng-show' => 'new_group' } %>
+    <br/>
+    <!-- <a class="avatarlink" href="#">foto avatar en gravatar</a> -->
+    <%= f.button :button, "registrar", :class => "bbton" %>
+	<%= render "devise2/shared/links" %>
+    <div class="clearfix"></div><!--links float-->
+<% end %>
+</section>
+</div>

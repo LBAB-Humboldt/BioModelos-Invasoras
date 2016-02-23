@@ -1,0 +1,18 @@
+// $("#download-btn").html("<%=j link_to 'ACEPTO', models_download_model_path(:m_id => params[:m_id]), {:class => 'bbton', :id => 'acepto-btn'} %>");
+$('.termbox').html('<%=j render partial: 'models/terms_and_conditions' %>');
+$("#acepto-btn").click(function(e){
+	if($("#acepto-chk").is(':checked'))
+	{
+		$(".termbox").hide();
+	}
+	else{
+		e.preventDefault();
+		alert("Por favor acepte los términos y condiciones.");
+	}
+	
+});
+$("#cancelo-trm-btn").click(function(e){
+	e.preventDefault();
+	$(".termbox").hide();
+});
+$(".termbox").show('slow');

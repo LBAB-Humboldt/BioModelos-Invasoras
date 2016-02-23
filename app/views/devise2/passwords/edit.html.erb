@@ -1,0 +1,23 @@
+<div class="fondo4">
+  <section class="claverec">
+<h2>Cambia tu contraseña</h2>
+
+<%= simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
+  <%= f.error_notification %>
+
+  <%= f.input :reset_password_token, :as => :hidden %>
+  <%= f.full_error :reset_password_token %>
+
+  <div class="forma">
+    <%= f.input :password, label: false, :placeholder => "Nueva contraseña", :required => true, :autofocus => true %>
+    <%= f.input :password_confirmation, label: false, :placeholder => "Confirma tu nueva contraseña", :required => true %>
+    <%= f.button :submit, "Cambiar", :class => 'btn boton1' %>
+  </div>
+
+<%= render "devise/shared/links" %>
+
+  <div class="clearfix"></div>
+<% end %>
+
+  </section>
+</div>

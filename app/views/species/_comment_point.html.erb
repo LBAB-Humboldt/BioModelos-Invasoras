@@ -1,0 +1,11 @@
+<%= simple_form_for @point_comment, :url => species_create_comment_point_path, :method => :post, :remote => true, :html => {:class => "pointcomm" } do |f| %>
+	<%= f.input :user_id, :as => :hidden, :input_html => {:value => get_current_user_id} %>
+	<%= f.input :species_id, :as => :hidden %>
+	<%= f.input :lat, :as => :hidden %>
+	<%= f.input :lon, :as => :hidden %>
+	<%= f.input :wrong_id, :as => :boolean, inline_label:"Identificación Incorrecta", :name => "badid", :label => false %>
+	<%= f.input :geo_problem, :as => :boolean, inline_label:"Georeferencia Dudosa", :name => "doubtgeo", :label => false %>
+	<%= f.input :comment, :as => :text, :placeholder => "Comentario", :input_html => {:class => "commeinput2", :maxlength => 1200, :cols => "50", :rows => "5"}, label: false %>
+	<%= f.button :submit, :value => "guardar", :class => 'xtrpad btn2'%>
+	<%= link_to "cancelar", '', {:id => 'cancel-point-cmt', :class => "btn2"} %>
+<% end %>

@@ -1,0 +1,19 @@
+<form class="terminos">
+    <h1>USOS Y CONDICIONES MODELO A DESCARGAR</h1>
+
+    <p>La aplicación <b>“BioModelos”</b> tiene la intención de abrir un espacio para la discusión y evaluación de modelos de distribución geográfica de especies.</br>
+
+    La información descargable de este sitio <b>NO es información oficial,</b> NO refleja la distribución real de la especies. La información representa una HIPOTESIS de una PROBABLE distribución geográfica asociada a la especie y puede contener ERRORES y SESGOS asociados a los datos y la estimación estadística de la distribución.</br>
+
+    En consecuencia, el uso o productos derivados de la información que usted va a descargar es enteramente su responsabilidad y debe ser única y exclusivamente para fines de carácter educativo, de investigación y sin fines de lucro.</br>
+
+    Citar la información descargada con el siguiente formato: Autor (fecha de publicación), nombre de la especies, ID del modelo, Publicador.</br>
+    <b>·  Autor:</b> Laboratorio de Biogeografía Aplicada y Bioacústica</br>
+    <b>·  Fecha de publicación:</b> 2014</br>
+    <b>·  Publicador:</b> Instituto de Investigación de Recursos Biológicos Alexander von Humboldt.</p>
+    <input type="checkbox" name="aceptoterms" value="terms" class="checkbox2" id="acepto-chk" />
+        <label>He leído y acepto los términos y condiciones</label></br>
+    </input>
+    <div id='download-btn'><%= link_to 'ACEPTO', models_download_model_path(:m_id => params[:m_id]), {:class => 'bbton', :id => 'acepto-btn'} %></div>
+    <div class="cancterm"><%= link_to 'X', '', {:id => 'cancelo-trm-btn'} %></div>
+</form>

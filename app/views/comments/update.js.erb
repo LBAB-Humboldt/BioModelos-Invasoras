@@ -1,0 +1,5 @@
+$.ajax({
+    type: "GET",
+    url: "/species/species_models",
+    data: { species_id: <%= @comment.commentable_id %>}
+});

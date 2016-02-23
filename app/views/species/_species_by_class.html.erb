@@ -1,0 +1,3 @@
+<% @species.each do |species|%>
+	<%= link_to species.sci_name, species_species_models_path(:species_id => species.id, :name => species.sci_name), :remote => true%><br />
+<% end %>

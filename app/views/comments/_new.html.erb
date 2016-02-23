@@ -1,0 +1,9 @@
+<div class='comment-form'>
+	<%= form_for new_comment, :remote => true, :id => 'new-comment-form' do |f| %>
+		 <%= f.hidden_field :parent_id, :value => @id_parent, :id => 'comment-parent-field' %>
+		 <%= f.text_area :body, :class => 'commeinput', :placeholder => 'Comentario' %>
+	     <%= f.hidden_field :commentable_id, :value => new_comment.commentable_id %>
+	     <%= f.hidden_field :commentable_type, :value => new_comment.commentable_type %>
+	     <%= f.submit :submit, :disable_with => "Submitting…", :class => 'cbton', :value => 'comentar' %>
+	<% end %>
+</div>

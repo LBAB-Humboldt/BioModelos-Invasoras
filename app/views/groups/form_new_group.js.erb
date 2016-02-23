@@ -1,0 +1,11 @@
+$('.new-group-form').html(""); //Clear div before rendering again
+<% if user_signed_in? %>
+	$('.new-group-form').html('<%=j render partial: 'groups/new_group_form' %>');
+	/* Cancel button */
+	$("#can-newgroup-btn").click(function(e){
+		e.preventDefault();
+		$(".new-group-form").html("");
+	});
+<% else %>
+	alert("Debe estar registrado para poder reportar sugerir un grupo");
+<% end %>
